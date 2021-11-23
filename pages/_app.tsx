@@ -1,15 +1,6 @@
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.dark.css';
 
-import AppHeader from "../AppHeader/AppHeader"
 import { appWithTranslation } from 'next-i18next'
-import { Layout } from 'antd';
 
-const MyApp = ({ Component, pageProps }) => {
-  return (
-    <Layout>
-      <AppHeader />
-      <Component {...pageProps} />
-    </Layout>
-  )
-}
+const MyApp = ({ Component, pageProps }) => <Component {...pageProps} />
 export default appWithTranslation(MyApp)
