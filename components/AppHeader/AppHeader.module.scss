@@ -1,9 +1,14 @@
+.app-header{
+  height: 64px;
+  padding: 0 50px;
+  color: rgba(0, 0, 0, 0.85);
+  line-height: 64px;
+  background: #FFFFFF;
+}
+
 .logo {
   float: left;
-  width: 120px;
-  height: 31px;
   margin: 16px 24px 16px 0;
-  background: rgba(255, 255, 255, 0.3);
 }
 
 .language-selector{
