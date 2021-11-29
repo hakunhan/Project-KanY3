@@ -2,6 +2,7 @@ import { CREATE_WITH_ENUM } from "../components/GameCard/GameCard";
 import { GameInterface } from "../interfaces/GameInterface";
 import game2048 from "../public/img/2048.png";
 import gameMineSweeper from "../public/img/minesweeper.png";
+import gameSnake from "../public/img/snake.png";
 
 const games: GameInterface[] = [
   {
@@ -18,6 +19,13 @@ const games: GameInterface[] = [
     url: "https://minhle20001998.github.io/minesweeper/",
     coverImg: gameMineSweeper,
   },
+  {
+    id: 3,
+    name: "Snake",
+    createWith: CREATE_WITH_ENUM.HTML5,
+    url: "https://phamquochuy12.github.io/Snake-JavaScript/",
+    coverImg: gameSnake,
+  }
 ];
 
 export const getGames = () => {
