@@ -1,16 +1,20 @@
-import { Typography } from "antd";
+import { Typography, Row, Col } from "antd";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
-
-import { Row, Col } from "antd";
-
+import sanity from "../lib/sanity";
 import GameCard from "../components/GameCard/GameCard";
-import { getGames } from "../service/GameService";
 import styles from "./index.module.scss";
 
-export default function Home() {
+const gamesQuery = `*[_type == "games"] {
+  _id,
+  name,
+  createWith,
+  url,
+  coverImg
+}[0...10]`;
+
+export default function Home({games}) {
   const { t } = useTranslation("common");
-  const games = getGames();
 
   return (
     <>
@@ -21,17 +25,18 @@ export default function Home() {
         {games.map((game, index) => {
           return (
             <Col key={index} span={4}>
-              <GameCard game={game} />;
+              <GameCard game={game} />
             </Col>
-          );
+          )
         })}
       </Row>
     </>
   );
 }
 
-export const getServerSideProps = async ({ locale }) => ({
-  props: {
-    ...(await serverSideTranslations(locale, ["common"])),
-  },
-});
+export const getStaticProps = async ({locale}) => {
+  const games = await sanity.fetch(gamesQuery);
+  return {
+    props: {games, ...await serverSideTranslations(locale, ["common"])}
+  }
+}

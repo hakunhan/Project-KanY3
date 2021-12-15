@@ -1,9 +1,7 @@
-import { CREATE_WITH_ENUM } from "../components/GameCard/GameCard";
-
 export interface GameInterface {
-  id: number;
+  _id: string;
   name: string;
-  createWith: CREATE_WITH_ENUM;
+  createWith: string;
   url: string;
   coverImg: StaticImageData;
 };

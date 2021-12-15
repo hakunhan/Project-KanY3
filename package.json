@@ -7,8 +7,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@sanity/client": "^2.23.1",
+    "@sanity/image-url": "^1.0.1",
     "antd": "^4.16.13",
-    "next": "latest",
+    "next": "^12.0.7",
     "next-i18next": "^9.2.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",

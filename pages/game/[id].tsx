@@ -4,35 +4,36 @@ import { useEffect, useState } from "react";
 import Iframe from "react-iframe";
 import { CREATE_WITH_ENUM } from "../../components/GameCard/GameCard";
 import { GameInterface } from "../../interfaces/GameInterface";
-import { getGame } from "../../service/GameService";
+import sanity from "../../lib/sanity";
+import imageUrlFor from "../../utils/imageUrlFor";
 
-export default function GamePage() {
-  const router = useRouter();
-  const { id } = router.query;
-  const [game, setGame] = useState<GameInterface>({
-    id: 0,
-    name: "",
-    createWith: CREATE_WITH_ENUM.HTML5,
-    url: "",
-    coverImg: null,
-  });
+const gamesQuery = `*[_type == "games"] {_id}`;
 
-  useEffect(() => {
-    const game = getGame(parseInt(id as string));
-    setGame(game);
-  }, [id])
+const gameQuery = `*[_type == "games" && _id == $id] {
+  _id,
+  name,
+  createWith,
+  url,
+}[0]
+`;
 
-  return (
-    <Iframe
-      url={game.url}
-      height="1000"
-      width="100%"
-    ></Iframe>
-  );
+export default function GamePage({ game }) {
+  return <Iframe url={game.url} height="1000" width="100%"></Iframe>;
 }
 
-export const getServerSideProps = async ({ locale }) => ({
-  props: {
-    ...(await serverSideTranslations(locale, ["common"])),
-  },
-});
+export const getStaticPaths = async () => {
+  const games: any[] = await sanity.fetch(gamesQuery);
+  const paths: any[] = games.map((game) => ({
+    params: {id: game._id}
+  }));
+  return {
+    paths, fallback: false,
+  };
+};
+
+export const getStaticProps = async ({ locale, params }) => {
+  const game = await sanity.fetch(gameQuery, { id: params.id });
+  return {
+    props: { game, ...await serverSideTranslations(locale, ["common"]) },
+  };
+};
