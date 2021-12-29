@@ -27,8 +27,7 @@ const description = (createdWith: string): ReactNode => {
     </>
   ) : createdWith === CREATE_WITH_ENUM.UNITY ? (
     <>
-      <Image alt="unity-logo" src={unityLogo} width={50} height={25} />
-      <Typography.Text>Unity</Typography.Text>
+      <Image alt="unity-logo" src={unityLogo} width={75} height={25} />
     </>
   ) : null;
 };
