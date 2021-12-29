@@ -1,11 +1,5 @@
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import Iframe from "react-iframe";
-import { CREATE_WITH_ENUM } from "../../components/GameCard/GameCard";
-import { GameInterface } from "../../interfaces/GameInterface";
 import sanity from "../../lib/sanity";
-import imageUrlFor from "../../utils/imageUrlFor";
 
 const gamesQuery = `*[_type == "games"] {_id}`;
 
@@ -24,16 +18,17 @@ export default function GamePage({ game }) {
 export const getStaticPaths = async () => {
   const games: any[] = await sanity.fetch(gamesQuery);
   const paths: any[] = games.map((game) => ({
-    params: {id: game._id}
+    params: { id: game._id },
   }));
   return {
-    paths, fallback: false,
+    paths,
+    fallback: false,
   };
 };
 
-export const getStaticProps = async ({ locale, params }) => {
+export const getStaticProps = async ({ params }) => {
   const game = await sanity.fetch(gameQuery, { id: params.id });
   return {
-    props: { game, ...await serverSideTranslations(locale, ["common"]) },
+    props: { game },
   };
 };
